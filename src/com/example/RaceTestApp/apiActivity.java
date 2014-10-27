@@ -51,8 +51,15 @@ public class apiActivity extends Activity implements LocationListener{
 
     public void sendCords(View view) {
         if(!username.getText().toString().equals("")) {
-            String response = "Hey " + username.getText().toString() + ", the API call is not implemented yet!";
-            responseField.setText(response);
+            HttpConc http = new HttpConc();
+            try {
+                String response = http.sendGet("http://racegofer.com:8080/api/AddMyCoordinates?name=" + username.getText() + "&latitude=" + String.valueOf(latitude) + "&longitude=" + String.valueOf(longitude));
+                responseField.setText(response);
+            }
+            catch (Exception e) {
+                responseField.setText("Could not connect to the Race-Gofer server!");
+                e.printStackTrace();
+            }
         }
         else {
             responseField.setText("Put your name in!");
